@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <bean id="tutBySearcher" class="com.byka.service.impl.TutBySearcher">
+        <property name="sortBy" value="date"/>
+        <property name="maxCount" value="10"/>
+        <property name="url" value="https://news.tut.by/search/?str="/>
+        <property name="format" ref="defaultDateFormatter"/>
+    </bean>
+
+    <bean id="defaultDateFormatter" class="java.text.SimpleDateFormat">
+        <constructor-arg value="dd.MM.yyyy"/>
+    </bean>
+
+    <bean id="searchEngine" class="com.byka.service.impl.DefaultSearchEngine">
+        <property name="searchers">
+            <list value-type="com.byka.service.Searcher">
+                <ref bean="tutBySearcher"/>
+            </list>
+        </property>
+    </bean>
+</beans>
